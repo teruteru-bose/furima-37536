@@ -42,7 +42,7 @@ Things you may want to cover:
 - has_many :purchases
 
 
-## itmes テーブル
+## items テーブル
 
 | Column          | Type       | Options                        |
 | --------------- | ---------- | ------------------------------ |
