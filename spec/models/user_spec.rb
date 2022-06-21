@@ -97,12 +97,12 @@ RSpec.describe User, type: :model do
       it "お名前(全角)は、名字（姓）が必須であること" do
         @user.last_name = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("お名前（姓）を入力してください", "お名前（姓）を全角（漢字・ひらがな・カタカナ）で入力してください")
+        expect(@user.errors.full_messages).to include("お名前（姓）を入力してください")
       end
       it "お名前(全角)は、名前（名）が必須であること" do
         @user.first_name = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("お名前（名）を入力してください", "お名前（名）を全角（漢字・ひらがな・カタカナ）で入力してください")
+        expect(@user.errors.full_messages).to include("お名前（名）を入力してください")
       end
       it "お名前（姓）は、全角（漢字・ひらがな・カタカナ）での入力が必須であること" do
         @user.last_name = 'test'
@@ -117,12 +117,12 @@ RSpec.describe User, type: :model do
       it "お名前カナ（姓）は、名字が必須であること" do
         @user.last_name_kana = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("お名前カナ（姓）を入力してください", "お名前カナ（姓）を全角（カタカナ）で入力してください")
+        expect(@user.errors.full_messages).to include("お名前カナ（姓）を入力してください")
       end
       it "お名前カナ（名）が名前が必須であること" do
         @user.first_name_kana = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("お名前カナ（名）を入力してください", "お名前カナ（名）を全角（カタカナ）で入力してください")
+        expect(@user.errors.full_messages).to include("お名前カナ（名）を入力してください")
       end
       it "お名前カナ（姓）は、全角（カタカナ）での入力が必須であること" do
         @user.last_name_kana = 'test'
