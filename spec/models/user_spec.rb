@@ -58,6 +58,36 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("パスワードを半角英数字混合で入力してください")
       end
+      it "パスワードは、半角英数字混合（全角数字のみの場合）での入力が必須であること" do
+        @user.password = '１２３４５６'
+        @user.password_confirmation = '１２３４５６'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("パスワードを半角英数字混合で入力してください")
+      end
+      it "パスワードは、半角英数字混合（全角英字のみの場合）での入力が必須であること" do
+        @user.password = 'ＡＢＣＤＥＦＧ'
+        @user.password_confirmation = 'ＡＢＣＤＥＦＧ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("パスワードを半角英数字混合で入力してください")
+      end
+      it "パスワードは、半角英数字混合（全角英数字混合の場合）での入力が必須であること" do
+        @user.password = '１２３４５６ＡＢＣＤＥＦＧ'
+        @user.password_confirmation = '１２３４５６ＡＢＣＤＥＦＧ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("パスワードを半角英数字混合で入力してください")
+      end
+      it "パスワードは、半角英数字混合（半角数字＋全角英字の場合）での入力が必須であること" do
+        @user.password = '123456ＡＢＣＤＥＦＧ'
+        @user.password_confirmation = '123456ＡＢＣＤＥＦＧ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("パスワードを半角英数字混合で入力してください")
+      end
+      it "パスワードは、半角英数字混合（全角数字＋半角英字の場合）での入力が必須であること" do
+        @user.password = '１２３４５６ABCDEFG'
+        @user.password_confirmation = '１２３４５６ABCDEFG'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("パスワードを半角英数字混合で入力してください")
+      end
       it "パスワードとパスワード（確認）は、値の一致が必須であること" do
         @user.password = '123456test'
         @user.password_confirmation = '123test'

@@ -12,11 +12,11 @@ class User < ApplicationRecord
 
   validates :first_name,
   presence: true,
-  format: { with: /\A[ぁ-んァ-ン一-龥々ーヶヽゝ]+\z/, message: 'を全角（漢字・ひらがな・カタカナ）で入力してください' }
+  format: { with: /\A[ぁ-んァ-ヶ一-龥々ーヶヽゝ]+\z/, message: 'を全角（漢字・ひらがな・カタカナ）で入力してください' }
 
   validates :last_name,
   presence: true,
-  format: { with: /\A[ぁ-んァ-ン一-龥々ーヶヽゝ]+\z/, message: 'を全角（漢字・ひらがな・カタカナ）で入力してください' }
+  format: { with: /\A[ぁ-んァ-ヶ一-龥々ーヶヽゝ]+\z/, message: 'を全角（漢字・ひらがな・カタカナ）で入力してください' }
   
   validates :first_name_kana,
   presence: true,
