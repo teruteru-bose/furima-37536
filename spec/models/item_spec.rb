@@ -108,6 +108,16 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('販売価格は半角数値で入力してください')
       end
+      it '価格は半角数値（整数値）のみ保存可能であること（小数点ありの場合）' do
+        @item.price = '1234.123'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('販売価格は整数で入力してください')
+      end
+      it 'userが紐づいていないと保存できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Userを入力してください')
+      end
     end
   end
 end
