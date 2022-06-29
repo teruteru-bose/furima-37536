@@ -9,10 +9,10 @@ RSpec.describe PurchasePost, type: :model do
     end
 
     context '商品の購入ができるとき' do
-      it '全ての情報を入力すれば、登録できる（building内の値あり）' do
+      it '全ての情報を入力すれば、購入できる（building内の値あり）' do
         expect(@purchase_post).to be_valid
       end
-      it '必要な情報を入力すれば、登録できる（building内の値なし）' do
+      it '必要な情報を入力すれば、購入できる（building内の値なし）' do
         @purchase_post.building = nil
         expect(@purchase_post).to be_valid
       end
@@ -25,32 +25,32 @@ RSpec.describe PurchasePost, type: :model do
         expect(@purchase_post.errors.full_messages).to include('Post codeを入力してください')
       end
       it '郵便番号は「3桁ハイフン4桁」の半角文字列のみ保存可能なこと（ハイフン無しの場合）' do
-        @purchase_post.post_code = "1234567"
+        @purchase_post.post_code = '1234567'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Post codeをハイフン(-)有り、かつ半角文字で入力してください')
       end
       it '郵便番号は「3桁ハイフン4桁」の半角文字列のみ保存可能なこと（3桁箇所において桁数誤りの場合）' do
-        @purchase_post.post_code = "1234-5678"
+        @purchase_post.post_code = '1234-5678'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Post codeをハイフン(-)有り、かつ半角文字で入力してください')
       end
       it '郵便番号は「3桁ハイフン4桁」の半角文字列のみ保存可能なこと（4桁箇所において桁数誤りの場合）' do
-        @purchase_post.post_code = "123-45678"
+        @purchase_post.post_code = '123-45678'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Post codeをハイフン(-)有り、かつ半角文字で入力してください')
       end
       it '郵便番号は「3桁ハイフン4桁」の半角文字列のみ保存可能なこと（半角英文字の場合）' do
-        @purchase_post.post_code = "abc-defg"
+        @purchase_post.post_code = 'abc-defg'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Post codeをハイフン(-)有り、かつ半角文字で入力してください')
       end
       it '郵便番号は「3桁ハイフン4桁」の半角文字列のみ保存可能なこと（全角数字の場合）' do
-        @purchase_post.post_code = "１２３-４５６７"
+        @purchase_post.post_code = '１２３-４５６７'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Post codeをハイフン(-)有り、かつ半角文字で入力してください')
       end
       it '郵便番号は「3桁ハイフン4桁」の半角文字列のみ保存可能なこと（全角文字の場合）' do
-        @purchase_post.post_code = "ＡＢＣ-ＤＥＦＧ"
+        @purchase_post.post_code = 'ＡＢＣ-ＤＥＦＧ'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Post codeをハイフン(-)有り、かつ半角文字で入力してください')
       end
@@ -75,34 +75,39 @@ RSpec.describe PurchasePost, type: :model do
         expect(@purchase_post.errors.full_messages).to include('Phone numberを入力してください')
       end
       it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能なこと（ハイフン有りの場合）' do
-        @purchase_post.phone_number = "090-1234-5678"
+        @purchase_post.phone_number = '090-1234-5678'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Phone numberをハイフン(-)無し、かつ10〜11桁の半角数字で入力してください')
       end
       it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能なこと（10桁未満の場合）' do
-        @purchase_post.phone_number = "123456789"
+        @purchase_post.phone_number = '123456789'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Phone numberをハイフン(-)無し、かつ10〜11桁の半角数字で入力してください')
       end
       it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能なこと（11桁超過の場合）' do
-        @purchase_post.phone_number = "123456789123"
+        @purchase_post.phone_number = '123456789123'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Phone numberをハイフン(-)無し、かつ10〜11桁の半角数字で入力してください')
       end
       it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能なこと（半角英文字の場合）' do
-        @purchase_post.phone_number = "abcdefghij"
+        @purchase_post.phone_number = 'abcdefghij'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Phone numberをハイフン(-)無し、かつ10〜11桁の半角数字で入力してください')
       end
       it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能なこと（全角数値の場合）' do
-        @purchase_post.phone_number = "１２３４５６７８９０"
+        @purchase_post.phone_number = '１２３４５６７８９０'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Phone numberをハイフン(-)無し、かつ10〜11桁の半角数字で入力してください')
       end
       it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能なこと（全角文字の場合）' do
-        @purchase_post.phone_number = "ＡＢＣＤＥＦＧＨＩＪ"
+        @purchase_post.phone_number = 'ＡＢＣＤＥＦＧＨＩＪ'
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Phone numberをハイフン(-)無し、かつ10〜11桁の半角数字で入力してください')
+      end
+      it 'クレジットカード情報（token）が必須であること' do
+        @purchase_post.token = nil
+        @purchase_post.valid?
+        expect(@purchase_post.errors.full_messages).to include('Tokenを入力してください')
       end
     end
   end

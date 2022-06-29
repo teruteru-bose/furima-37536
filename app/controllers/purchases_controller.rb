@@ -7,7 +7,6 @@ class PurchasesController < ApplicationController
     @purchase_post = PurchasePost.new
   end
 
-  #newは不必要？
   def new
     @purchase_post = PurchasePost.new
   end
@@ -15,6 +14,7 @@ class PurchasesController < ApplicationController
   def create
     @purchase_post = PurchasePost.new(purchase_params)
     if @purchase_post.valid?
+      pay_item
       @purchase_post.save
       redirect_to root_path
     else
@@ -22,7 +22,6 @@ class PurchasesController < ApplicationController
     end
   end
 
-  #showは不必要？
   def show
     @purchase = Purchase.find(params[:id])
   end
@@ -34,13 +33,21 @@ class PurchasesController < ApplicationController
   end
 
   def purchase_params
-    params.require(:purchase_post).permit(:post_code, :prefecture_id, :municipality, :house_number, :building, :phone_number).merge(user_id: current_user.id, item_id: @item.id)
+    params.require(:purchase_post).permit(:post_code, :prefecture_id, :municipality, :house_number, :building, :phone_number).merge(
+      user_id: current_user.id, item_id: @item.id, price: @item.price, token: params[:token]
+    )
   end
 
   def move_to_index
-    if @item.purchase.present?
-      redirect_to root_path
-    end
+    redirect_to root_path if @item.purchase.present?
   end
 
+  def pay_item
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
+    Payjp::Charge.create(
+      amount: @item.price,
+      card: @purchase_post.token,
+      currency: 'jpy'
+    )
+  end
 end
