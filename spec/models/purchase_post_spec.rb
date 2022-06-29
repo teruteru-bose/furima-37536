@@ -59,6 +59,11 @@ RSpec.describe PurchasePost, type: :model do
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Prefectureを選択してください')
       end
+      it '都道府県に「---」が選択されている場合は購入できない' do
+        @purchase_post.prefecture_id = '1'
+        @purchase_post.valid?
+        expect(@purchase_post.errors.full_messages).to include('Prefectureを選択してください')
+      end
       it '市区町村が必須であること' do
         @purchase_post.municipality = nil
         @purchase_post.valid?
@@ -108,6 +113,16 @@ RSpec.describe PurchasePost, type: :model do
         @purchase_post.token = nil
         @purchase_post.valid?
         expect(@purchase_post.errors.full_messages).to include('Tokenを入力してください')
+      end
+      it 'userが紐付いていなければ購入できない' do
+        @purchase_post.user_id = ''
+        @purchase_post.valid?
+        expect(@purchase_post.errors.full_messages).to include('Userを入力してください')
+      end
+      it 'itemが紐付いていなければ購入できない' do
+        @purchase_post.item_id = ''
+        @purchase_post.valid?
+        expect(@purchase_post.errors.full_messages).to include('Itemを入力してください')
       end
     end
   end

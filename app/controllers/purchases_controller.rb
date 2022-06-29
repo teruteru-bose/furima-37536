@@ -39,7 +39,7 @@ class PurchasesController < ApplicationController
   end
 
   def move_to_index
-    redirect_to root_path if @item.purchase.present?
+    redirect_to root_path if (@item.purchase.present? || current_user == @item.user)
   end
 
   def pay_item

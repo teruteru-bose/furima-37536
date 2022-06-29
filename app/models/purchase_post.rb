@@ -3,16 +3,17 @@ class PurchasePost
   attr_accessor :post_code, :prefecture_id, :municipality, :house_number, :building, :phone_number, :user_id, :item_id, :price,
                 :token
 
-  validates :token, presence: true
-  validates :post_code, presence: true,
-                        format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: 'をハイフン(-)有り、かつ半角文字で入力してください', allow_blank: true }
+  with_options presence: true do
+    validates :token
+    validates :post_code, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: 'をハイフン(-)有り、かつ半角文字で入力してください', allow_blank: true }
+    validates :municipality
+    validates :house_number
+    validates :phone_number, format: { with: /\A[0-9]{10,11}+\z/, message: 'をハイフン(-)無し、かつ10〜11桁の半角数字で入力してください', allow_blank: true }
+    validates :user_id
+    validates :item_id
+  end
+
   validates :prefecture_id, numericality: { other_than: 1, message: 'を選択してください' }
-  validates :municipality, presence: true
-  validates :house_number, presence: true
-  validates :phone_number, presence: true,
-                           format: { with: /\A[0-9]{10,11}+\z/, message: 'をハイフン(-)無し、かつ10〜11桁の半角数字で入力してください', allow_blank: true }
-  validates :user_id, presence: true
-  validates :item_id, presence: true
 
   def save
     purchase = Purchase.create(user_id: user_id, item_id: item_id)
