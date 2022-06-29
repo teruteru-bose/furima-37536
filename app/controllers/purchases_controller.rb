@@ -7,10 +7,6 @@ class PurchasesController < ApplicationController
     @purchase_post = PurchasePost.new
   end
 
-  def new
-    @purchase_post = PurchasePost.new
-  end
-
   def create
     @purchase_post = PurchasePost.new(purchase_params)
     if @purchase_post.valid?
@@ -20,10 +16,6 @@ class PurchasesController < ApplicationController
     else
       render :index
     end
-  end
-
-  def show
-    @purchase = Purchase.find(params[:id])
   end
 
   private
